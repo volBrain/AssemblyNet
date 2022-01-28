@@ -22,19 +22,19 @@ NeuroImage, Elsevier, 2020, 219, pp.117026.
 
 # Quick Start instructions
 
-If you have already installed Docker, you can get the assemblynet:1.0.0 image from Docker Hub repository:
+If you have already installed Docker, you can get the volbrain/assemblynet:1.0.0 image from Docker Hub repository:
 ```
 sudo docker pull volbrain/assemblynet:1.0.0
 ```
 
 If you have a NVIDIA GPU with at least 8GB, and have already installed NVIDIA Container Toolkit, you can run AssemblyNet on the GPU on the image /absolute/path/to/images/image.nii.gz:
 ```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data assemblynet:1.0.0 /data/image.nii.gz
+sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii.gz
 ```
 
 If you have a x86_64 CPU, you can run AssemblyNet on the CPU on the image /absolute/path/to/images/image.nii.gz:
 ```
-sudo docker run --rm -v /absolute/path/to/images:/data assemblynet:1.0.0 /data/image.nii.gz
+sudo docker run --rm -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii.gz
 ```
 
 See [Installation instructions](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#installation-instructions) for detailed instructions on how to install all the dependencies.  
@@ -121,7 +121,7 @@ For other linux distributions, see [NVIDIA Container Toolkit installation instru
 
 #### AssemblyNet Docker image 
 
-Pull the assemblynet:1.0.0 image from Docker Hub repository:
+Pull the volbrain/assemblynet:1.0.0 image from Docker Hub repository:
 
 ```
 sudo docker pull volbrain/assemblynet:1.0.0
@@ -192,7 +192,7 @@ docker run --rm --gpus all nvidia/cuda:11.0-base nvidia-smi
 
 #### AssemblyNet Docker image 
 
-From the Ubuntu terminal, pull the assemblynet:1.0.0 image from Docker Hub repository:
+From the Ubuntu terminal, pull the volbrain/assemblynet:1.0.0 image from Docker Hub repository:
 ```
 sudo docker pull volbrain/assemblynet:1.0.0
 ```
@@ -205,7 +205,7 @@ See [How to use AssemblyNet](https://github.com/BorisMansencal/AssemblyNet_priva
 
 The following command run AssemblyNet on first GPU (0) on the image /absolute/path/to/images/image.nii.gz:
 ```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data assemblynet:1.0.0 /data/image.nii.gz
+sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii.gz
 ```
 
 - "/absolute/path/to/images" should be changed to the absolute path of your image. This path must only contain these letters `[a-zA-Z0-9][a-zA-Z0-9_.-]`.
@@ -215,13 +215,13 @@ sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data assem
 
 The following command run AssemblyNet on CPU on the image /absolute/path/to/images/image.nii
 ```
-sudo docker run --rm -v /absolute/path/to/images:/data assemblynet:1.0.0 /data/image.nii
+sudo docker run --rm -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii
 ```
 Here, the produced output files will be in the same directory than the input image.
 
 You can also process all the images in an input directory and produce the output files in an output directory, here on first GPU:
 ```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/input/path/to/images:/data -v /absolute/output/path:/data_out assemblynet:1.0.0 /data /data_out
+sudo docker run --rm --gpus '"device=0"' -v /absolute/input/path/to/images:/data -v /absolute/output/path:/data_out volbrain/assemblynet:1.0.0 /data /data_out
 ```
 
 `sudo` may be omitted if the user is member of the docker group.
@@ -278,18 +278,18 @@ The Docker image has the following arguments:
 
 Here is an example of command to run AssemblyNet on first GPU, specifying age and gender of subject to have normality bounds:  
 ```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data assemblynet:1.0.0 -age 50 -sex Male /data/image.nii.gz
+sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 -age 50 -sex Male /data/image.nii.gz
 ```
 If you only have one gpu, you can also specify `--gpus all` instead of `--gpus '"device=0"'`.
 
 Here is an example of command to run AssemblyNet on first GPU on all the T1.nii images recursively found in input directory `/absolute/path/to/images`, produce a global csv file, and save ouptut files in `/absolute/path/to/output/directory`:
 ```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out assemblynet:1.0.0 -recursive -pattern T1.nii -global-csv /data_out/global_volumetry_info.csv /data/ /data_out/
+sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out volbrain/assemblynet:1.0.0 -recursive -pattern T1.nii -global-csv /data_out/global_volumetry_info.csv /data/ /data_out/
 ```
 
 Here is an example of command to run AssemblyNet on first GPU on all the T1*.nii* images recursively found in input directory `/absolute/path/to/images`, to use a csv filename to specify age and sex, to produce a global csv file and no pdf report, to use a batch size of 8 and save ouptut files in `/absolute/path/to/output/directory`:
 ```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out assemblynet:1.0.0 -recursive -pattern "T1*.nii*" -age-sex-csv /data/age_sex.csv -global-csv /data_out/global_volumetry_info.csv -no-pdf-report -batchSize 8 /data/ /data_out/
+sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out volbrain/assemblynet:1.0.0 -recursive -pattern "T1*.nii*" -age-sex-csv /data/age_sex.csv -global-csv /data_out/global_volumetry_info.csv -no-pdf-report -batchSize 8 /data/ /data_out/
 ```
 
 If there are sub-directories in the input dir (in particular when -recursive is used) and an output directory is specified, these sub-directories will be created in the output directory.
