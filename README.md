@@ -262,7 +262,7 @@ The size of the ouput files on disk is roughly 7.5 times the input size (for com
 
 The Docker image has the following arguments: 
 ```
-[-age <age>] [-sex <sex>] [-age-sex-csv input_csv_filename] [-recursive] [-pattern <pattern>] [-no-pdf-report] [-global-csv output_csv_filename] [-batchSize <batchSize>] <input image or directory> [output directory]
+[-age <age>] [-sex <sex>] [-age-sex-csv input_csv_filename] [-recursive] [-pattern-t1 <pattern>] [-no-pdf-report] [-global-csv output_csv_filename] [-batch-size <batchSize>] <input image or directory> [output directory]
 ```
 
 * `<input image or directory>`: it is possible to process a single image or all the images in an input directory. 
@@ -270,10 +270,10 @@ The Docker image has the following arguments:
 * `[-age <age>]` and `[-sex <sex>]` allows to specify age and sex. Sex must be "Male" or "Female". Age is the age in years and should be a float. If an age is specified, the produced volumetry report report_*filename*.pdf will show the expected limits/normative bounds of normalized volumes in function of age. If both age and sex are specified, the expected limits of normalized volumes will be in function of age and sex. These bounds have been estimated over more than 3000 cognitively normal subjects. In case of abnormality, red values indicate volumes lower or bigger than normal at 95%. These options are mainly useful when processing exactly one image (see `-age-sex-csv` when processing several images).
 * `-age-sex-csv <input_csv_filename>`: specify input CSV filename with age and sex for all the input files when processing several files. The CSV file should have three columns: filename, age, sex. Each row of the filename column should contain the relative path of a file in the input directory. 
 * `[-recursive]`: allows to specify that images will be searched recursively in input directory. 
-* `[-pattern <pattern>]`: allows to specify a pattern for images searched in input directory. The default is: \*.nii\*
+* `[-pattern-t1 <pattern>]`: allows to specify a pattern for images searched in input directory. The default is: \*.nii\*
 * `[-no-pdf-report]`: specify to produce no PDF format volumetry report.
 * `[-global-csv <output_csv_filename>]`: allows to have all the volumetry information in a unique CSV file.
-* `[-batchSize <batchSize>]`: allows to speciy the batch size (an integer) of T1 images processed simultaneously. When processing several images, increasing the batch size may reduce the total processing time (see [Processing time](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#processing_time)) at the cost of more memory usage (mainly CPU memory). It is recommanded to use the largest batch size that fits in your CPU & GPU memory. Default batch size is set to 3.
+* `[-batch-size <batchSize>]`: allows to speciy the batch size (an integer) of T1 images processed simultaneously. When processing several images, increasing the batch size may reduce the total processing time (see [Processing time](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#processing_time)) at the cost of more memory usage (mainly CPU memory). It is recommanded to use the largest batch size that fits in your CPU & GPU memory. Default batch size is set to 3.
 
 
 Here is an example of command to run AssemblyNet on first GPU, specifying age and gender of subject to have normality bounds:  
@@ -284,12 +284,12 @@ If you only have one gpu, you can also specify `--gpus all` instead of `--gpus '
 
 Here is an example of command to run AssemblyNet on first GPU on all the T1.nii images recursively found in input directory `/absolute/path/to/images`, produce a global csv file, and save ouptut files in `/absolute/path/to/output/directory`:
 ```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out volbrain/assemblynet:1.0.0 -recursive -pattern T1.nii -global-csv /data_out/global_volumetry_info.csv /data/ /data_out/
+sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out volbrain/assemblynet:1.0.0 -recursive -pattern-t1 T1.nii -global-csv /data_out/global_volumetry_info.csv /data/ /data_out/
 ```
 
 Here is an example of command to run AssemblyNet on first GPU on all the T1*.nii* images recursively found in input directory `/absolute/path/to/images`, to use a csv filename to specify age and sex, to produce a global csv file and no pdf report, to use a batch size of 8 and save ouptut files in `/absolute/path/to/output/directory`:
 ```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out volbrain/assemblynet:1.0.0 -recursive -pattern "T1*.nii*" -age-sex-csv /data/age_sex.csv -global-csv /data_out/global_volumetry_info.csv -no-pdf-report -batchSize 8 /data/ /data_out/
+sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out volbrain/assemblynet:1.0.0 -recursive -pattern-t1 "T1*.nii*" -age-sex-csv /data/age_sex.csv -global-csv /data_out/global_volumetry_info.csv -no-pdf-report -batch-size 8 /data/ /data_out/
 ```
 
 If there are sub-directories in the input dir (in particular when -recursive is used) and an output directory is specified, these sub-directories will be created in the output directory.
