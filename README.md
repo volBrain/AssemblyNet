@@ -11,7 +11,7 @@ Given an input T1 image in nifti format, this Docker image will produce segmenta
 
 Here are examples of produced segmentations (in MNI space): [structures](example/mni_structures_my_brain.nii.gz), [macrostructures](example/mni_macrostructures_my_brain.nii.gz), [tissues](example/mni_tissues_my_brain.nii.gz), [lobes](example/mni_lobes_my_brain.nii.gz), [intracranial cavity](example/mni_mask_my_brain.nii.gz) corresponding to this processed [T1 image](example/mni_t1_my_brain.nii.gz). Here are examples of produced PDF and CSV volumetry reports: [report.pdf](example/report_my_brain.pdf) and [report.csv](example/report_my_brain.csv).  
 
-**This Docker image is to be used only for non-commercial and non-medical purposes (research only).** See [license](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#license).
+**This Docker image is to be used only for non-commercial and non-medical purposes (research only).** See [license](https://github.com/volBrain/AssemblyNet/blob/main/README.md#license).
 
 If you use this Docker image, please cite:  
 Pierrick Coupé, Boris Mansencal, Michaël Clément, Rémi Giraud, Baudouin Denis de Senneville, Vinh-Thong Ta, Vincent Lepetit, José V. Manjon  
@@ -37,8 +37,8 @@ If you have a x86_64 CPU, you can run AssemblyNet on the CPU on the image /absol
 sudo docker run --rm -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii.gz
 ```
 
-See [Installation instructions](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#installation-instructions) for detailed instructions on how to install all the dependencies.  
-See [How to use AssemblyNet](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#how-to-use-assemblynet) for detailed instructions on how to use AssemblyNet.
+See [Installation instructions](https://github.com/volBrain/AssemblyNet/blob/main/README.md#installation-instructions) for detailed instructions on how to install all the dependencies.  
+See [How to use AssemblyNet](https://github.com/volBrain/AssemblyNet/blob/main/README.md#how-to-use-assemblynet) for detailed instructions on how to use AssemblyNet.
 
 
 # Installation instructions 
@@ -63,7 +63,7 @@ To run this Docker image on a GPU, you will need:
 
 ## Installation 
 
-Docker may be installed on supported versions of [GNU/Linux](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#installation-on-gnulinux) or [Windows 10/11 with WSL](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#installation-on-windows-1011-with-wsl).
+Docker may be installed on supported versions of [GNU/Linux](https://github.com/volBrain/AssemblyNet/blob/main/README.md#installation-on-gnulinux) or [Windows 10/11 with WSL](https://github.com/volBrain/AssemblyNet/blob/main/README.md#installation-on-windows-1011-with-wsl). The docker image can also be transformed in a [Singularity image](https://github.com/volBrain/AssemblyNet/blob/main/README.md#singularity-image)
 
 ### Installation on GNU/Linux
 
@@ -127,7 +127,7 @@ Pull the volbrain/assemblynet:1.0.0 image from Docker Hub repository:
 sudo docker pull volbrain/assemblynet:1.0.0
 ```
 
-See [How to use AssemblyNet](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#how-to-use-assemblynet).
+See [How to use AssemblyNet](https://github.com/volBrain/AssemblyNet/blob/main/README.md#how-to-use-assemblynet).
 
 
 ### Installation on Windows 10/11 with WSL
@@ -197,35 +197,12 @@ From the Ubuntu terminal, pull the volbrain/assemblynet:1.0.0 image from Docker 
 sudo docker pull volbrain/assemblynet:1.0.0
 ```
 
-See [How to use AssemblyNet](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#how-to-use-assemblynet).
+See [How to use AssemblyNet](https://github.com/volBrain/AssemblyNet/blob/main/README.md#how-to-use-assemblynet).
+
+
 
 
 # How to use AssemblyNet 
-
-
-The following command run AssemblyNet on first GPU (0) on the image /absolute/path/to/images/image.nii.gz:
-```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii.gz
-```
-
-- "/absolute/path/to/images" should be changed to the absolute path of your image. This path must only contain these letters `[a-zA-Z0-9][a-zA-Z0-9_.-]`.
-- You can pass `.nii` or `.nii.gz` files
-- If you have multiple GPUs, you can change the GPU used to run AssemblyNet by changing the GPU indice set. '"device=2"' for third GPU for example. This Docker image uses only one GPU.
-
-
-The following command run AssemblyNet on CPU on the image /absolute/path/to/images/image.nii
-```
-sudo docker run --rm -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii
-```
-Here, the produced output files will be in the same directory than the input image.
-
-You can also process all the images in an input directory and produce the output files in an output directory, here on first GPU:
-```
-sudo docker run --rm --gpus '"device=0"' -v /absolute/input/path/to/images:/data -v /absolute/output/path:/data_out volbrain/assemblynet:1.0.0 /data /data_out
-```
-
-`sudo` may be omitted if the user is member of the docker group.
-
 
 ## Inputs
 
@@ -273,7 +250,34 @@ The Docker image has the following arguments:
 * `[-pattern-t1 <pattern>]`: allows to specify a pattern for images searched in input directory. The default is: \*.nii\*
 * `[-no-pdf-report]`: specify to produce no PDF format volumetry report.
 * `[-global-csv <output_csv_filename>]`: allows to have all the volumetry information in a unique CSV file.
-* `[-batch-size <batchSize>]`: allows to speciy the batch size (an integer) of T1 images processed simultaneously. When processing several images, increasing the batch size may reduce the total processing time (see [Processing time](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#processing_time)) at the cost of more memory usage (mainly CPU memory). It is recommanded to use the largest batch size that fits in your CPU & GPU memory. Default batch size is set to 3.
+* `[-batch-size <batchSize>]`: allows to speciy the batch size (an integer) of T1 images processed simultaneously. When processing several images, increasing the batch size may reduce the total processing time (see [Processing time](https://github.com/volBrain/AssemblyNet/blob/main/README.md#processing_time)) at the cost of more memory usage (mainly CPU memory). It is recommanded to use the largest batch size that fits in your CPU & GPU memory. Default batch size is set to 3.
+
+
+## Exemples of commands
+
+
+The following command run AssemblyNet on first GPU (0) on the image /absolute/path/to/images/image.nii.gz:  
+```
+sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii.gz
+```
+
+- "/absolute/path/to/images" should be changed to the absolute path of your image. This path must only contain these letters `[a-zA-Z0-9][a-zA-Z0-9_.-]`.
+- You can pass `.nii` or `.nii.gz` files
+- If you have multiple GPUs, you can change the GPU used to run AssemblyNet by changing the GPU indice set. '"device=2"' for third GPU for example. This Docker image uses only one GPU.
+
+
+The following command run AssemblyNet on CPU on the image /absolute/path/to/images/image.nii
+```
+sudo docker run --rm -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii
+```
+Here, the produced output files will be in the same directory than the input image.
+
+You can also process all the images in an input directory and produce the output files in an output directory, here on first GPU:
+```
+sudo docker run --rm --gpus '"device=0"' -v /absolute/input/path/to/images:/data -v /absolute/output/path:/data_out volbrain/assemblynet:1.0.0 /data /data_out
+```
+
+`sudo` may be omitted if the user is member of the docker group.
 
 
 Here is an example of command to run AssemblyNet on first GPU, specifying age and gender of subject to have normality bounds:  
@@ -294,12 +298,34 @@ sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /a
 
 If there are sub-directories in the input dir (in particular when -recursive is used) and an output directory is specified, these sub-directories will be created in the output directory.
 
-Processing time should around 7-15mn/image depending on the hardware configuration (See [Processing time](https://github.com/BorisMansencal/AssemblyNet_private/blob/main/README.md#processing_time)).
+Processing time should around 7-15mn/image depending on the hardware configuration (See [Processing time](https://github.com/volBrain/AssemblyNet/blob/main/README.md#processing_time)).
 
 The produced ouput files will be own by root. You may change ownership with `sudo chown -R $(id -u) output_file_or_directory`.
 If you run docker with `--user $(id -u):$(id -g)`  the created files will have the current user as owner, however, on linux, docker will only run on CPU.
 
 AssemblyNet is not fully deterministic: you may have slight differences in the produced segmentations between runs.
+
+
+# Singularity image 
+
+To use this docker image without root privileges (on a HPC cluster for example), you can transform the docker image in a singularity image with the following command:
+```
+singularity build assemblynet_1.0.0.sif docker://volbrain/assemblynet:1.0.0
+```
+
+You can then use the singularity image with the following command to process a single image (and output the produced files in the same directory):
+```
+singularity run -B <your_tmp_dir>:/tmp -B <your_data_dir>:/data <path_to_singularity_image>/assemblynet_1.0.0.sif /data/<your_nii_image>
+```
+or to process a whole directory (and output the produced files in a new ouput directory):
+```
+singularity run -B <your_tmp_dir>:/tmp -B <your_data_dir>:/data <your_data_out_dir>:/data_out <path_to_singularity_image>/assemblynet_1.0.0.sif -recursive /data /data_out
+```
+
+Depending on how your computer is set up, you may also have to specify a temporary home directory, with for example:  `-H <a_tmp_dir>:/data`
+
+See [command options](https://github.com/volBrain/AssemblyNet/blob/main/README.md#command-options) for other command arguments.
+
 
 # Processing time
 
