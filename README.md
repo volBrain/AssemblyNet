@@ -264,13 +264,12 @@ sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data volbr
 - "/absolute/path/to/images" should be changed to the absolute path of your image. This path must only contain these letters `[a-zA-Z0-9][a-zA-Z0-9_.-]`.
 - You can pass `.nii` or `.nii.gz` files
 - If you have multiple GPUs, you can change the GPU used to run AssemblyNet by changing the GPU indice set. '"device=2"' for third GPU for example. This Docker image uses only one GPU.
+- The produced output files will be in the same directory than the input image.
 
-
-The following command run AssemblyNet on CPU on the image /absolute/path/to/images/image.nii
+In the same way, the following command run AssemblyNet on CPU on the image /absolute/path/to/images/image.nii
 ```
 sudo docker run --rm -v /absolute/path/to/images:/data volbrain/assemblynet:1.0.0 /data/image.nii
 ```
-Here, the produced output files will be in the same directory than the input image.
 
 You can also process all the images in an input directory and produce the output files in an output directory, here on first GPU:
 ```
@@ -296,7 +295,7 @@ Here is an example of command to run AssemblyNet on first GPU on all the T1*.nii
 sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /absolute/path/to/output/directory:/data_out volbrain/assemblynet:1.0.0 -recursive -pattern-t1 "T1*.nii*" -age-sex-csv /data/age_sex.csv -global-csv /data_out/global_volumetry_info.csv -no-pdf-report -batch-size 8 /data/ /data_out/
 ```
 
-If there are sub-directories in the input dir (in particular when -recursive is used) and an output directory is specified, these sub-directories will be created in the output directory.
+If there are sub-directories in the input dir (in particular when -recursive is used) and an output directory is specified, these sub-directories will be created in the output directory. This is for example a way to process a [BIDS](https://bids.neuroimaging.io/) directory.
 
 Processing time should around 7-15mn/image depending on the hardware configuration (See [Processing time](https://github.com/volBrain/AssemblyNet/blob/main/README.md#processing_time)).
 
@@ -315,12 +314,13 @@ singularity build assemblynet_1.0.0.sif docker://volbrain/assemblynet:1.0.0
 
 You can then use the singularity image with the following command to process a single image (and output the produced files in the same directory):
 ```
-singularity run -B <your_tmp_dir>:/tmp -B <your_data_dir>:/data <path_to_singularity_image>/assemblynet_1.0.0.sif /data/<your_nii_image>
+singularity run --nv -B <your_tmp_dir>:/tmp -B <your_data_dir>:/data <path_to_singularity_image>/assemblynet_1.0.0.sif /data/<your_nii_image>
 ```
 or to process a whole directory (and output the produced files in a new ouput directory):
 ```
-singularity run -B <your_tmp_dir>:/tmp -B <your_data_dir>:/data <your_data_out_dir>:/data_out <path_to_singularity_image>/assemblynet_1.0.0.sif -recursive /data /data_out
+singularity run --nv -B <your_tmp_dir>:/tmp -B <your_data_dir>:/data <your_data_out_dir>:/data_out <path_to_singularity_image>/assemblynet_1.0.0.sif -recursive /data /data_out
 ```
+The option `--nv` enables GPU support.
 
 Depending on how your computer is set up, you may also have to specify a temporary home directory, with for example:  `-H <a_tmp_dir>:/data`
 
