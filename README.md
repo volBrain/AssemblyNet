@@ -320,9 +320,9 @@ or to process a whole directory (and output the produced files in a new ouput di
 ```
 singularity run --nv -B <your_tmp_dir>:/tmp -B <your_data_dir>:/data <your_data_out_dir>:/data_out <path_to_singularity_image>/assemblynet_1.0.0.sif -recursive /data /data_out
 ```
-The option `--nv` enables GPU support.
+The option `--nv` enables GPU support. You may have to set the environment variable [SINGULARITYENV_CUDA_VISIBLE_DEVICES](https://sylabs.io/guides/main/user-guide/gpu.html#gpu-selection) to choose which GPU to use.
 
-Depending on how your computer is set up, you may also have to specify a temporary home directory, with for example:  `-H <a_tmp_dir>:/data`
+Depending on how your computer is set up, you may also have to specify a temporary home directory, with for example:  `-H <a_tmp_dir>:/data` (for example to prevent finding local python packages).
 
 See [command options](https://github.com/volBrain/AssemblyNet/blob/main/README.md#command-options) for other command arguments.
 
@@ -337,6 +337,7 @@ Config1:
  CPU: Intel Core i9-7940x  
  GPU: Nvidia Titan Xp 12GB  
  RAM: 128GB  
+ DISK: SATA
  OS: Ubuntu 20.04  
 
 On GPU:
@@ -366,7 +367,8 @@ On CPU:
 Config2  
  CPU: AMD 5800X  
  GPU: RTX 3800  
- RAM: 64GB  
+ RAM: 64GB 
+ DISK: NVMe SSD
  OS: Windows 10 - WSL2 (Ubuntu 20.04)  
 
 On GPU:
