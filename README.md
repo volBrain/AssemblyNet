@@ -47,6 +47,7 @@ See [How to use AssemblyNet](https://github.com/volBrain/AssemblyNet/blob/main/R
 
 To run this Docker image on a CPU, you will need:
 * a x86_64 CPU 
+* At least 6GB of RAM
 * GNU/Linux [[supported distributions]](https://docs.docker.com/engine/install/#server) or Windows 10/11 with WSL [[supported versions]](https://docs.docker.com/desktop/windows/install/)
 * Docker >= 19.03 
 * AssemblyNet Docker image 
