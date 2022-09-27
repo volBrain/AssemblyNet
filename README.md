@@ -396,6 +396,14 @@ On CPU:
 According to our benchmarks, disk access speed has more impact on processing time than GPU performance.
 If possible, it is recommended to store both the Docker image and the T1 images on a SSD disk.
 
+# Normative ranges
+
+We provide the normative ranges of normalized volumes used in AssemblyNet (in the report when age is provided) through the following files: [bounds_female.csv](bounds_female.csv), [bounds_male.csv](bounds_male.csv), and [bounds_general.csv](bounds_general.csv).
+bounds_general.csv is used when only age is provided (and not sex).
+
+The first column is the name of the tissue/macrostructure/structure. In case of a bilateral symmetric element, the name is present four times with suffixes: "_total", "_right", "_left", "_asym" for the total, this is right+left, right and left normalized volumes and the asymmetry (calculated as the difference between right and left volumes divided by their mean, in percent).
+Then the following columns, are the lower bound, median value and upper bound for each age in [1; 90] years old.
+
 # License
 
 **This Docker image is to be used only for non-commercial and non-medical purposes (research only).**
