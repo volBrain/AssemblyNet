@@ -368,9 +368,9 @@ On CPU:
 Config2  
  CPU: AMD 5800X  
  GPU: RTX 3800  
- RAM: 64GB 
- DISK: NVMe SSD
- OS: Windows 10 - WSL2 (Ubuntu 20.04)  
+ RAM: 64GB  
+ DISK: NVMe SSD  
+ OS: Windows 10 - WSL2 (Ubuntu 20.04)    
 
 On GPU:
 
