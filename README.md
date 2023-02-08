@@ -404,6 +404,14 @@ bounds_general.csv is used when only age is provided (and not sex).
 The first column is the name of the tissue/macrostructure/structure. In case of a bilateral symmetric element, the name is present four times with suffixes: "_total", "_right", "_left", "_asym" for the total, this is right+left, right and left normalized volumes and the asymmetry (calculated as the difference between right and left volumes divided by their mean, in percent).
 Then the following columns, are the lower bound, median value and upper bound for each age in [1; 90] years old.
 
+The images used to compute these ranges are described in the following paper:  
+Pierrick Coupé, Gwenaelle Catheline, Enrique Lanuza, José V. Manjon, and for the Alzheimer's Disease Neuroimaging Initiative  
+[Towards a unified analysis of brain maturation and aging across the entire lifespan: A MRI analysis](https://onlinelibrary.wiley.com/doi/abs/10.1002/hbm.23743).  
+Human Brain Mapping, 38: 5501-5518.
+[[paper]](https://onlinelibrary.wiley.com/doi/epdf/10.1002/hbm.23743)  
+Please cite this paper if you use these csv files.
+
+
 # License
 
 **This Docker image is to be used only for non-commercial and non-medical purposes (research only).**
