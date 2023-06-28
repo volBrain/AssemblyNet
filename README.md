@@ -298,6 +298,12 @@ sudo docker run --rm --gpus '"device=0"' -v /absolute/path/to/images:/data -v /a
 
 If there are sub-directories in the input dir (in particular when -recursive is used) and an output directory is specified, these sub-directories will be created in the output directory. This is for example a way to process a [BIDS](https://bids.neuroimaging.io/) directory.
 
+On Windows, a C:\data_dir directory will be mounted as /mnt/c/data_dir in the WSL file system. So if you have a file image.nii.gz in C:\data_dir, you could process it for example with:
+```
+docker run --rm --gpus '"device=0"' -v /mnt/c/data_dir:/data volbrain/assemblynet:1.0.0 -age 50 -sex Male /data/image.nii.gz
+```
+However, your performance speed will improve if you store/copy your file(s) in the WSL file system.
+
 Processing time should around 7-15mn/image depending on the hardware configuration (See [Processing time](https://github.com/volBrain/AssemblyNet/blob/main/README.md#processing_time)).
 
 The produced ouput files will be own by root. You may change ownership with `sudo chown -R $(id -u) output_file_or_directory`.
